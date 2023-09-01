@@ -2,25 +2,18 @@ package com.example.myapplication.topnews
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.myapplication.App
 import com.example.myapplication.R
-import com.example.myapplication.TestClass
-import com.example.myapplication.api.ApiInterface
-import com.example.myapplication.api.RetrofitClient
 import com.example.myapplication.databinding.FragmentFirstBinding
 import com.example.myapplication.models.NetworkResult
-import com.google.gson.Gson
 import javax.inject.Inject
 
 /**
@@ -34,8 +27,7 @@ class FirstFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    @Inject
-    lateinit var testval : TestClass
+
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -48,8 +40,6 @@ class FirstFragment : Fragment() {
     ): View? {
 
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
-        println("Joe_Tag testval 1st frag = ${testval.testVar}")
-        testval.testVar = 9
 
         return binding.root
     }

@@ -12,9 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.App
-import com.example.myapplication.TestClass
 import com.example.myapplication.databinding.FragmentSecondBinding
-import com.example.myapplication.models.Language
 import com.example.myapplication.models.NetworkResult
 import com.example.myapplication.models.Result
 import com.example.myapplication.topnews.RvAdapter
@@ -28,8 +26,7 @@ class SecondFragment : Fragment() {
 
     private var _binding: FragmentSecondBinding? = null
 
-    @Inject
-    lateinit var testval : TestClass
+
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -57,8 +54,6 @@ class SecondFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        println("Joe_Tag testval 2nd frag = ${testval.testVar}")
 
         println("JOE_TAG newsViewModelViewModel : ${newsViewModelViewModel.toString()}")
 

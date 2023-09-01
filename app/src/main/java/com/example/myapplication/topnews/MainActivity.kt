@@ -11,11 +11,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.App
 import com.example.myapplication.R
-import com.example.myapplication.TestClass
 import com.example.myapplication.databinding.ActivityMainBinding
 import javax.inject.Inject
 
@@ -24,8 +22,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
-    @Inject
-    lateinit var testval : TestClass
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -37,9 +33,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         (application as App).appComponent.inject(this )
-
-        println("Joe_Tag testval activity = ${testval.testVar}")
-        testval.testVar = 7
 
         println("JOE_TAG topNewsViewModel : ${topNewsViewModel.toString()}")
 
