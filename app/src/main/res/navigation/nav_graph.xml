@@ -14,6 +14,7 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -24,5 +25,12 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+        <argument
+            android:name="selectedItem"
+            app:argType="integer"
+            android:defaultValue="2" />
+        <argument
+            android:name="detailsData"
+            app:argType="com.example.myapplication.models.DataForDetails" />
     </fragment>
 </navigation>

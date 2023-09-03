@@ -10,7 +10,9 @@ import com.example.myapplication.models.TopStories
 import com.example.myapplication.repo.NewsDataRepositoryRemote
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class TopNewsViewModel @Inject constructor(private val newsDataRepository: NewsDataRepositoryRemote) : ViewModel()  {
 
     var response: MutableLiveData<NetworkResult<TopStories>> = MutableLiveData()
@@ -19,28 +21,12 @@ class TopNewsViewModel @Inject constructor(private val newsDataRepository: NewsD
         get() = _data
     private val _data = MutableLiveData<List<Result>>(emptyList())
 
+    lateinit var tempResults : List<Result>
+
     fun getTopNews(){
         response.value = NetworkResult.Loading()
         viewModelScope.launch {
             response.value = newsDataRepository.getNewsFromNW()
-            /*when(val networkResult  = newsDataRepository.getNewsFromNW()) {
-                is NetworkResult.Success -> {
-                    println("Joe_Tag in VIEW Success : ${networkResult.data.copyright}")
-
-                   // response.value = networkResult.data
-
-                }
-                is NetworkResult.Error -> {
-                    println("Joe_Tag in VIEW Error : ${networkResult.message}")
-
-                }
-                is NetworkResult.Loading -> {
-                    println("Joe_Tag in VIEW LOADING SCREEN ")
-                }
-                is NetworkResult.Exception -> {
-                    println("Joe_Tag in VIEW Exception ${networkResult.e.message} ")
-                }
-            }*/
         }
     }
 }

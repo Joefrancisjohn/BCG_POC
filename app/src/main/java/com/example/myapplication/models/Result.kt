@@ -1,5 +1,9 @@
 package com.example.myapplication.models
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+
 data class Result(
     val abstract : String,
     val byline: String,

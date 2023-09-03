@@ -9,11 +9,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.App
 import com.example.myapplication.R
-import com.example.myapplication.databinding.FragmentFirstBinding
+import com.example.myapplication.databinding.FragmentNewsListBinding
 import com.example.myapplication.models.NetworkResult
+import com.example.myapplication.models.Result
 import javax.inject.Inject
 
 /**
@@ -21,11 +25,13 @@ import javax.inject.Inject
  */
 class FirstFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
+    private var _binding: FragmentNewsListBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    private lateinit var rvAdapter: RvAdapter
 
 
 
@@ -39,7 +45,7 @@ class FirstFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = FragmentNewsListBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -52,17 +58,19 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
+        val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(activity)
+        binding.rvList.layoutManager = layoutManager
+
+        println("JOE_TAG 1st frag newsViewModelViewModel : ${topNewsViewModel.toString()}")
 
         topNewsViewModel.getTopNews()
 
         topNewsViewModel.response.observe(viewLifecycleOwner){ response ->
+            binding.progressBar.visibility = View.GONE
             when(response) {
                 is NetworkResult.Success -> {
-                    println("Joe_Tag in VIEW Success : ${response.data.copyright}")
-                    binding.textviewFirst.text = response.data.copyright
+                   loadRvWithNews(response.data.results)
+                    topNewsViewModel.tempResults = response.data.results
                 }
                 is NetworkResult.Error -> {
                     println("Joe_Tag in VIEW Error : ${response.message}")
@@ -71,12 +79,14 @@ class FirstFragment : Fragment() {
                         "Error : ${response.message}",
                         Toast.LENGTH_LONG
                     ).show()
+                    binding.tvErrorMsg.text = response.message
                 }
                 is NetworkResult.Loading -> {
-                    println("Joe_Tag in VIEW LOADING SCREEN ")
+                    binding.progressBar.visibility = View.VISIBLE
                 }
                 is NetworkResult.Exception -> {
                     println("Joe_Tag in VIEW Exception ${response.e.message} ")
+                    binding.tvErrorMsg.text = response.e.message
                     Toast.makeText(
                         activity,
                         "Exception: ${response.e.message}",
@@ -87,54 +97,16 @@ class FirstFragment : Fragment() {
         }
     }
 
+    private fun loadRvWithNews(results: List<Result>) {
+        rvAdapter = RvAdapter(this.requireContext(), results)
+        binding.rvList.adapter = rvAdapter
+        binding.rvList.visibility = View.VISIBLE
+
+
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-
-   /* private fun getUserList() {
-        val response = apiInterface.getTopStories()
-        lifecycleScope.launchWhenCreated {
-            try {
-
-                if (response.isSuccessful()) {
-                    var json = Gson().toJson(response.body())
-                    if (response.body()?.results?.size!! <= 0) {
-                        Toast.makeText(
-                            activity,
-                            "No Data ",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        println("Joe_Tag FETCH ERROR HAPPENED SIZE ZERO")
-                    } else {
-                        val result = response.body()?.copyright
-                        binding.textviewFirst.text = result
-                    }
-
-                    //new
-                    *//* if(response?.body()!!.support.text.contains("Harshita")){
-                         Toast.makeText(
-                             this@MainActivity,
-                             "Hello Retrofit",
-                             Toast.LENGTH_LONG
-                         ).show()
-                     }*//*
-
-                    // var getNEsteddata=response.body().data.get(0).suport.url
-
-                } else {
-                    Toast.makeText(
-                        activity,
-                        response.errorBody().toString(),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }catch (Ex:Exception){
-                //Ex.localizedMessage?.let { Log.e("Error", it) }
-                Ex.localizedMessage?.let { println("Joe_Tag FETCH Exception HAPPENED  $it") }
-            }
-        }
-
-    }*/
 }

@@ -23,7 +23,6 @@ class NewsDataRepositoryRemote @Inject constructor(private val apiInterface : Ap
                 } else {
                     val result = response.body()?.copyright
                     output = NetworkResult.Success(response.body()!!)
-                    println("Joe_Tag Got result $output")
                 }
             } else {
                 output =  NetworkResult.Error(code = response.code() , message = response.message() )

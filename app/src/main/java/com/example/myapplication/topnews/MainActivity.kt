@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         (application as App).appComponent.inject(this )
 
-        println("JOE_TAG topNewsViewModel : ${topNewsViewModel.toString()}")
+
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
