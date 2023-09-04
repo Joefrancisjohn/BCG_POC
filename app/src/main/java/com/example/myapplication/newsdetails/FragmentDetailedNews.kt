@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
@@ -31,7 +32,7 @@ class FragmentDetailedNews : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val newsViewModelViewModel by viewModels<NewsDetailsViewModel> { viewModelFactory }
+    private val newsViewModel by viewModels<NewsDetailsViewModel> { viewModelFactory }
 
     private lateinit var rvAdapter: RvAdapter
     private lateinit var newsList : List<Result>
@@ -56,6 +57,8 @@ class FragmentDetailedNews : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (activity as AppCompatActivity).supportActionBar?.title = args.detailsData.title//.take(15)
+
         binding.tvTitleMsg.text = args.detailsData.title
         binding.tvErrorMsg.text = args.detailsData.abstract
         Glide.with(this.requireContext())
@@ -64,7 +67,7 @@ class FragmentDetailedNews : Fragment() {
             //.onlyRetrieveFromCache(true)
             .into(binding.ivNewsImg)
 
-        println("JOE_TAG 2nd frag img_url : ${args.detailsData.img_url}")
+
 
     }
 
