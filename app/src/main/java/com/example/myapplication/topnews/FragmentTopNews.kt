@@ -9,12 +9,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.FragmentNavigator
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.App
-import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentNewsListBinding
 import com.example.myapplication.models.NetworkResult
 import com.example.myapplication.models.Result
@@ -23,7 +20,7 @@ import javax.inject.Inject
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class FirstFragment : Fragment() {
+class FragmentTopNews : Fragment() {
 
     private var _binding: FragmentNewsListBinding? = null
 

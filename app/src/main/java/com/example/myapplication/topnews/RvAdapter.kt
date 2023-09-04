@@ -65,7 +65,7 @@ class RvAdapter(
                     dataForDetails = DataForDetails(this.title , this.abstract, this.multimedia[0].url)
                 }
                 navController = Navigation.findNavController(itemView)
-                val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(dataForDetails, position)
+                val action = FragmentTopNewsDirections.actionFirstFragmentToSecondFragment(dataForDetails, position)
                 navController!!.navigate(action)
             }
         }

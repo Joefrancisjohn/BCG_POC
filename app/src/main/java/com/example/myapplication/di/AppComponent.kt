@@ -1,8 +1,8 @@
 package com.example.myapplication.di
 
 import android.content.Context
-import com.example.myapplication.newsdetails.SecondFragment
-import com.example.myapplication.topnews.FirstFragment
+import com.example.myapplication.newsdetails.FragmentDetailedNews
+import com.example.myapplication.topnews.FragmentTopNews
 import com.example.myapplication.topnews.MainActivity
 import dagger.BindsInstance
 import dagger.Component
@@ -25,8 +25,8 @@ interface AppComponent {
     }
 
     // Classes that can be injected by this Component
-    fun inject(fragment: FirstFragment)
-    fun inject(fragment: SecondFragment)
+    fun inject(fragment: FragmentTopNews)
+    fun inject(fragment: FragmentDetailedNews)
     fun inject(activity: MainActivity)
 
 }

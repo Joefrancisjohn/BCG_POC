@@ -6,31 +6,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplication.App
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentSecondBinding
-import com.example.myapplication.models.NetworkResult
 import com.example.myapplication.models.Result
 
 import com.example.myapplication.topnews.RvAdapter
-import com.example.myapplication.topnews.TopNewsViewModel
 import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
-class SecondFragment : Fragment() {
+class FragmentDetailedNews : Fragment() {
 
     private var _binding: FragmentSecondBinding? = null
 
-    private val args: SecondFragmentArgs by navArgs()
+    private val args: FragmentDetailedNewsArgs by navArgs()
 
 
     @Inject
