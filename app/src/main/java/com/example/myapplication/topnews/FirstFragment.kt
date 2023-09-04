@@ -46,7 +46,6 @@ class FirstFragment : Fragment() {
     ): View? {
 
         _binding = FragmentNewsListBinding.inflate(inflater, container, false)
-        topNewsViewModel.getTopNews()
         return binding.root
     }
 
@@ -60,6 +59,7 @@ class FirstFragment : Fragment() {
 
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(activity)
         binding.rvList.layoutManager = layoutManager
+        topNewsViewModel.getTopNews()
 
         topNewsViewModel.response.observe(viewLifecycleOwner){ response ->
             binding.progressBar.visibility = View.GONE
