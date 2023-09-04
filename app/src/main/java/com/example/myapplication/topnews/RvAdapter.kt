@@ -8,6 +8,9 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.FitCenter
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.example.myapplication.R
 import com.example.myapplication.databinding.NewsItemBinding
 import com.example.myapplication.models.DataForDetails
@@ -43,6 +46,8 @@ class RvAdapter(
     // not setting any image data to view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var navController: NavController? = null
+        var requestOptions = RequestOptions()
+        requestOptions = requestOptions.transform(FitCenter(), RoundedCorners(16))
         with(holder){
             with(newsList[position]){
                 binding.tvLangName.text = this.title
@@ -50,6 +55,7 @@ class RvAdapter(
                 Glide.with(context)
                     .load(this.multimedia[0].url)
                     .placeholder(R.drawable.ic_launcher_foreground)
+                    .apply(requestOptions)
                     .onlyRetrieveFromCache(true)
                     .into(binding.ivNewsImg)
             }
