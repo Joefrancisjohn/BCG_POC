@@ -1,6 +1,6 @@
 package com.example.myapplication.di
 
-import com.example.myapplication.api.ApiInterface
+import com.example.myapplication.repo.remote.api.ApiInterface
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

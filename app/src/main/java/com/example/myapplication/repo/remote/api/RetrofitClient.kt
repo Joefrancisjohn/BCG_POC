@@ -1,4 +1,4 @@
-package com.example.myapplication.api
+package com.example.myapplication.repo.remote.api
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

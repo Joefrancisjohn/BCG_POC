@@ -1,22 +1,22 @@
-package com.example.myapplication.repo
+package com.example.myapplication.repo.remote
 
-import androidx.lifecycle.MutableLiveData
-import com.example.myapplication.api.ApiInterface
+import com.example.myapplication.repo.remote.api.ApiInterface
 import com.example.myapplication.models.NetworkResult
 import com.example.myapplication.models.TopStories
+import com.example.myapplication.repo.NewsDataSource
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class NewsDataRepositoryRemote @Inject constructor(
+class NewsDataSourceRemote @Inject constructor(
     private val apiInterface: ApiInterface,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
-) {
-    suspend fun getNewsFromNW(): NetworkResult<TopStories> {
+) : NewsDataSource {
+    override suspend fun getTasks(): NetworkResult<TopStories> {
         var output: NetworkResult<TopStories> = NetworkResult.Loading()
-        // var output = "Init"
+
         withContext(ioDispatcher) {
             try {
                 val response = apiInterface.getTopStories()
@@ -40,5 +40,6 @@ class NewsDataRepositoryRemote @Inject constructor(
         }
 
         return output
+
     }
 }

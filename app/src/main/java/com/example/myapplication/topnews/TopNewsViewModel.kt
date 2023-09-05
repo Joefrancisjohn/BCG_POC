@@ -7,13 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.myapplication.models.NetworkResult
 import com.example.myapplication.models.Result
 import com.example.myapplication.models.TopStories
-import com.example.myapplication.repo.NewsDataRepositoryRemote
+import com.example.myapplication.repo.NewsRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TopNewsViewModel @Inject constructor(private val newsDataRepository: NewsDataRepositoryRemote) : ViewModel()  {
+class TopNewsViewModel @Inject constructor(private val newsRepository: NewsRepository) : ViewModel()  {
 
     var response: MutableLiveData<NetworkResult<TopStories>> = MutableLiveData()
 
@@ -26,7 +26,7 @@ class TopNewsViewModel @Inject constructor(private val newsDataRepository: NewsD
     fun getTopNews(){
         response.value = NetworkResult.Loading()
         viewModelScope.launch {
-            response.value = newsDataRepository.getNewsFromNW()
+            response.value = newsRepository.getTasks(true)
         }
     }
 }
