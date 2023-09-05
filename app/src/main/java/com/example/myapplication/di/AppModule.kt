@@ -2,9 +2,8 @@ package com.example.myapplication.di
 
 import android.content.Context
 import com.example.myapplication.App
-import com.example.myapplication.api.ApiInterface
-import com.example.myapplication.repo.NewsDataRepository
-import com.example.myapplication.repo.NewsDataRepositoryRemote
+import com.example.myapplication.repo.NewsDataSource
+import com.example.myapplication.repo.remote.api.ApiInterface
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineDispatcher
@@ -21,36 +20,33 @@ class AppModule() {
 
     @Qualifier
     @Retention(AnnotationRetention.RUNTIME)
-    annotation class NewsRemoteDataSource
+    annotation class NewsDataSourceRemote
 
     @Qualifier
     @Retention(AnnotationRetention.RUNTIME)
-    annotation class NewsLocalDataSource
+    annotation class NewsDataSourceLocal
 
    // @JvmStatic
     @Singleton
     @Provides
     fun provideIoDispatcher() = Dispatchers.IO
 
-   // @JvmStatic
-   /* @Singleton
-    @NewsRemoteDataSource
+    //@JvmStatic
+    @Singleton
+    @NewsDataSourceRemote
     @Provides
-    fun provideTasksRemoteDataSource(ioDispatcher: CoroutineDispatcher): NewsDataRepository {
-        return NewsDataRepositoryRemote
+    fun provideNewsDataSourceRemote(
+        apiInterface: ApiInterface,
+        ioDispatcher: CoroutineDispatcher): NewsDataSource {
+        return com.example.myapplication.repo.remote.NewsDataSourceRemote (apiInterface,ioDispatcher)
     }
 
    // @JvmStatic
     @Singleton
-    @NewsLocalDataSource
+    @NewsDataSourceLocal
     @Provides
-    fun provideTasksLocalDataSource(
-
-        ioDispatcher: CoroutineDispatcher
-    ): TasksDataSource {
-        return TasksLocalDataSource(
-            database.taskDao(), ioDispatcher
-        )
-    }*/
+    fun provideTasksLocalDataSource(): NewsDataSource {
+        return com.example.myapplication.repo.local.NewsDataSourceLocal()
+    }
 
 }
