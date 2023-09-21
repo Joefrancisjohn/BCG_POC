@@ -18,7 +18,6 @@ class DefaultNewsRepo @Inject constructor(
         val output: NetworkResult<TopStories> = if (forceUpdate) {
             newsDataSourceRemote.getTasks()
         } else {
-            println("JOE_TAG Local Data requested")
             newsDataSourceLocal.getTasks() //dummy call
             NetworkResult.Error(3, "DB DATA")
         }
