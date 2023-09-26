@@ -66,7 +66,7 @@ class FragmentTopNews : Fragment() {
                     topNewsViewModel.tempResults = response.data.results
                 }
                 is NetworkResult.Error -> {
-                    println("Joe_Tag in VIEW Error : ${response.message}")
+                    println("JOE_TAG in VIEW Error : ${response.message}")
                     Toast.makeText(
                         activity,
                         "Error : ${response.message}",
@@ -78,7 +78,7 @@ class FragmentTopNews : Fragment() {
                     binding.progressBar.visibility = View.VISIBLE
                 }
                 is NetworkResult.Exception -> {
-                    println("Joe_Tag in VIEW Exception ${response.e.message} ")
+                    println("JOE_TAG in VIEW Exception ${response.e.message} ")
                     binding.tvErrorMsg.text = response.e.message
                     Toast.makeText(
                         activity,

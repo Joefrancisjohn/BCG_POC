@@ -45,24 +45,32 @@ class RvAdapter(
     // to keep it simple we are
     // not setting any image data to view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var navController: NavController? = null
+        var navController: NavController?
         var requestOptions = RequestOptions()
         requestOptions = requestOptions.transform(FitCenter(), RoundedCorners(16))
         with(holder){
             with(newsList[position]){
                 binding.tvLangName.text = this.title
                 binding.tvExp.text = this.published_date
-                Glide.with(context)
-                    .load(this.multimedia[0].url)
-                    .placeholder(R.drawable.ic_launcher_foreground)
-                    .apply(requestOptions)
-                    .onlyRetrieveFromCache(true)
-                    .into(binding.ivNewsImg)
+                this.multimedia?.let {
+                    try {
+                        Glide.with(context)
+                            .load(it[0].url)
+                            .placeholder(R.drawable.ic_launcher_foreground)
+                            .apply(requestOptions)
+                            .onlyRetrieveFromCache(true)
+                            .into(binding.ivNewsImg)
+                    } catch (e: Exception) {
+                        println("JOE_TAG Exception at :  $position")
+                    }
+                }
             }
 
             itemView.setOnClickListener {
                 with(newsList[position]){
-                    dataForDetails = DataForDetails(this.title , this.abstract, this.multimedia[0].url)
+                    dataForDetails = DataForDetails(this.title , this.abstract,
+                        this.multimedia?.get(0)?.url ?: ""
+                    )
                 }
                 navController = Navigation.findNavController(itemView)
                 val action = FragmentTopNewsDirections.actionFirstFragmentToSecondFragment(dataForDetails, position)
