@@ -16,3 +16,5 @@ rebase test 3
 rebase test 4
 
 rebase commit 4
+
+merge 2
