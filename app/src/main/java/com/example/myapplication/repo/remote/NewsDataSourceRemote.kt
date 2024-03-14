@@ -23,8 +23,7 @@ class NewsDataSourceRemote @Inject constructor(
                 if (response.isSuccessful) {
                     var json = Gson().toJson(response.body())
                     if (response.body()?.results?.size!! <= 0) {
-
-                        println("Joe_Tag FETCH ERROR HAPPENED SIZE ZERO")
+                        println("JOE_TAG FETCH ERROR HAPPENED SIZE ZERO")
                     } else {
                         val result = response.body()?.copyright
                         output = NetworkResult.Success(response.body()!!)
@@ -34,7 +33,7 @@ class NewsDataSourceRemote @Inject constructor(
                         NetworkResult.Error(code = response.code(), message = response.message())
                 }
             } catch (Ex: Exception) {
-                Ex.localizedMessage?.let { println("Joe_Tag FETCH Exception HAPPENED  $it") }
+                Ex.localizedMessage?.let { println("JOE_TAG FETCH Exception HAPPENED  $it") }
                 output = NetworkResult.Exception(Ex)
             }
         }
