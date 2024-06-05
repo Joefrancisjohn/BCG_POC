@@ -41,4 +41,27 @@ class NewsDataSourceRemote @Inject constructor(
         return output
 
     }
+
+    override suspend fun getTasksMVI(): TopStories? {
+        var output: TopStories? = null
+        withContext(ioDispatcher) {
+            try {
+                val response = apiInterface.getTopStories()
+                if (response.isSuccessful) {
+                    var json = Gson().toJson(response.body())
+                    if (response.body()?.results?.size!! <= 0) {
+                        println("JOE_TAG FETCH ERROR HAPPENED SIZE ZERO")
+                    } else {
+                        val result = response.body()?.copyright
+                        println("JOE_TAG FETCH RESULT COPYRIGHT : $result")
+                        output = response.body()!!
+                    }
+                }
+            } catch (Ex: Exception) {
+                Ex.localizedMessage?.let { println("JOE_TAG FETCH Exception HAPPENED  $it") }
+                output = null
+            }
+        }
+        return output
+    }
 }

@@ -5,11 +5,14 @@ import com.example.myapplication.models.NetworkResult
 import com.example.myapplication.models.TopStories
 import com.example.myapplication.repo.local.NewsDataSourceLocal
 import com.example.myapplication.repo.remote.NewsDataSourceRemote
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class DefaultNewsRepo @Inject constructor(
     @AppModule.NewsDataSourceRemote private val newsDataSourceRemote: NewsDataSource,
     @AppModule.NewsDataSourceLocal private val newsDataSourceLocal: NewsDataSource,
@@ -22,5 +25,9 @@ class DefaultNewsRepo @Inject constructor(
             NetworkResult.Error(3, "DB DATA")
         }
         return output
+    }
+
+    override suspend fun getTasksMVI(forceUpdate: Boolean): TopStories? {
+        return newsDataSourceRemote.getTasksMVI()
     }
 }

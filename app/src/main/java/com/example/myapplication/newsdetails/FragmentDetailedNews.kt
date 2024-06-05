@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -17,22 +18,21 @@ import com.example.myapplication.databinding.FragmentSecondBinding
 import com.example.myapplication.models.Result
 
 import com.example.myapplication.topnews.RvAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
+
+@AndroidEntryPoint
 class FragmentDetailedNews : Fragment() {
 
     private var _binding: FragmentSecondBinding? = null
 
     private val args: FragmentDetailedNewsArgs by navArgs()
 
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val newsViewModel by viewModels<NewsDetailsViewModel> { viewModelFactory }
+    private val newsViewModel : NewsDetailsViewModel by viewModels()
 
     private lateinit var rvAdapter: RvAdapter
     private lateinit var newsList : List<Result>
@@ -66,14 +66,6 @@ class FragmentDetailedNews : Fragment() {
             .placeholder(R.drawable.ic_launcher_foreground)
             //.onlyRetrieveFromCache(true)
             .into(binding.ivNewsImg)
-
-
-
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (requireActivity().application as App).appComponent.inject(this)
     }
 
     override fun onDestroyView() {

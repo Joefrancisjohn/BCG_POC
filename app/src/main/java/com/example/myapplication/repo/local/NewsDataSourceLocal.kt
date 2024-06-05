@@ -9,4 +9,8 @@ class NewsDataSourceLocal @Inject constructor(): NewsDataSource {
     override suspend fun getTasks(): NetworkResult<TopStories> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun getTasksMVI(): TopStories {
+        TODO("Not yet implemented")
+    }
 }

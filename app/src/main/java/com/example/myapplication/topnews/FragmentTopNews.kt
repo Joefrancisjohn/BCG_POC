@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,11 +17,14 @@ import com.example.myapplication.App
 import com.example.myapplication.databinding.FragmentNewsListBinding
 import com.example.myapplication.models.NetworkResult
 import com.example.myapplication.models.Result
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
+
+@AndroidEntryPoint
 class FragmentTopNews : Fragment() {
 
     private var _binding: FragmentNewsListBinding? = null
@@ -32,10 +37,11 @@ class FragmentTopNews : Fragment() {
 
 
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    /*@Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory*/
 
-    private val topNewsViewModel by viewModels<TopNewsViewModel> { viewModelFactory }
+    //private val topNewsViewModel by viewModels<TopNewsViewModel> { viewModelFactory }
+    private val topNewsViewModel : TopNewsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,11 +50,6 @@ class FragmentTopNews : Fragment() {
 
         _binding = FragmentNewsListBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (requireActivity().application as App).appComponent.inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

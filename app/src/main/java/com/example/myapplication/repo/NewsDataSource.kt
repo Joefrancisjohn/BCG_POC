@@ -5,4 +5,6 @@ import com.example.myapplication.models.TopStories
 
 interface NewsDataSource {
     suspend fun getTasks(): NetworkResult<TopStories>
+    suspend fun getTasksMVI(): TopStories?
+
 }

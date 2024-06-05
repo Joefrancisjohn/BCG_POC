@@ -6,12 +6,14 @@ import com.example.myapplication.repo.NewsDataSource
 import com.example.myapplication.repo.remote.api.ApiInterface
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Qualifier
 import javax.inject.Singleton
-
-@Module(includes = [ViewModelsModule::class , NetworkModule::class])
+@InstallIn(SingletonComponent::class)
+@Module(includes = [/*ViewModelsModule::class ,*/ NetworkModule::class])
 class AppModule() {
 
     @Singleton // Annotation informs Dagger compiler that the instance should be created only once in the entire lifecycle of the application.
@@ -19,11 +21,11 @@ class AppModule() {
     fun provideContext(app: App): Context = app // Using provide as a prefix is a common convention but not a requirement.
 
     @Qualifier
-    @Retention(AnnotationRetention.RUNTIME)
+    @Retention(AnnotationRetention.BINARY)
     annotation class NewsDataSourceRemote
 
     @Qualifier
-    @Retention(AnnotationRetention.RUNTIME)
+    @Retention(AnnotationRetention.BINARY)
     annotation class NewsDataSourceLocal
 
    // @JvmStatic
