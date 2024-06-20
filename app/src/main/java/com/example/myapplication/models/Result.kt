@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 
 data class Result(
-    val abstract : String,
+    val abstract: String,
     val byline: String,
     val created_date: String,
     val des_facet: List<String>,
@@ -24,4 +24,10 @@ data class Result(
     val updated_date: String,
     val uri: String,
     val url: String
+)
+
+data class DetailsData(
+    val abstract: String,
+    val title: String,
+    val url: String?
 )

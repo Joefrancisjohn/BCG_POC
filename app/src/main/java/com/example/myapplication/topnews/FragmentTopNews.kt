@@ -57,7 +57,8 @@ class FragmentTopNews : Fragment() {
 
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(activity)
         binding.rvList.layoutManager = layoutManager
-        topNewsViewModel.getTopNews()
+        //topNewsViewModel.getTopNews()
+        topNewsViewModel.fetchTopNews()
 
         topNewsViewModel.response.observe(viewLifecycleOwner){ response ->
             binding.progressBar.visibility = View.GONE

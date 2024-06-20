@@ -3,16 +3,22 @@ package com.example.myapplication.topnews
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.theme.TopNewsComposeTheme
+import com.example.myapplication.ui.Screens.MainScreen
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -21,16 +27,34 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
 
-
-
-    private val topNewsViewModel : TopNewsViewModel by viewModels()
+    private val topNewsViewModel: TopNewsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
 
+        val onButtonClick: () -> Unit = {
+            lifecycleScope.launch {
+                topNewsViewModel.userIntent.send(TopNewsIntent.FetchTopNews)
+            }
+        }
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContent {
+            TopNewsComposeTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(color = MaterialTheme.colors.background) {
+                    MainScreen(
+                        vm = topNewsViewModel,
+                        detailsData = topNewsViewModel.detailsData.value,
+                        state = topNewsViewModel.state.value,
+
+                        onButtonClick = onButtonClick
+                    )
+                }
+            }
+        }
+
+        /*binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
@@ -40,12 +64,13 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.fab.setOnClickListener { view ->
-            /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            *//*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAnchorView(R.id.fab)
-                .setAction("Action", null).show()*/
+                .setAction("Action", null).show()*//*
 
-            topNewsViewModel.getTopNews()
-        }
+            //topNewsViewModel.getTopNews()
+            topNewsViewModel.fetchTopNews()
+        }*/
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -66,7 +91,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 }
