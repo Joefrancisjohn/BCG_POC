@@ -1,27 +1,25 @@
 package com.example.myapplication.newsdetails
 
-import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.example.myapplication.App
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentSecondBinding
 import com.example.myapplication.models.Result
-
 import com.example.myapplication.topnews.RvAdapter
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
+
+@AndroidEntryPoint
 class FragmentDetailedNews : Fragment() {
 
     private var _binding: FragmentSecondBinding? = null
@@ -29,10 +27,7 @@ class FragmentDetailedNews : Fragment() {
     private val args: FragmentDetailedNewsArgs by navArgs()
 
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val newsViewModel by viewModels<NewsDetailsViewModel> { viewModelFactory }
+    private val newsViewModel : NewsDetailsViewModel by viewModels()
 
     private lateinit var rvAdapter: RvAdapter
     private lateinit var newsList : List<Result>
@@ -69,11 +64,6 @@ class FragmentDetailedNews : Fragment() {
 
 
 
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (requireActivity().application as App).appComponent.inject(this)
     }
 
     override fun onDestroyView() {

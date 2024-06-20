@@ -3,6 +3,9 @@ package com.example.myapplication.di
 import com.example.myapplication.repo.remote.api.ApiInterface
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import dagger.hilt.migration.DisableInstallInCheck
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -10,6 +13,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
+@DisableInstallInCheck
 class NetworkModule {
 
 
@@ -36,7 +41,7 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        return retrofit2.Retrofit.Builder()
+        return Retrofit.Builder()
             //.baseUrl("https://reqres.in")
             .baseUrl("https://api.nytimes.com/svc/")
             .addConverterFactory(GsonConverterFactory.create())

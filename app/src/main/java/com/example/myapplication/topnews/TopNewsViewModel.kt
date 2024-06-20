@@ -8,11 +8,12 @@ import com.example.myapplication.models.NetworkResult
 import com.example.myapplication.models.Result
 import com.example.myapplication.models.TopStories
 import com.example.myapplication.repo.NewsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+
+@HiltViewModel
 class TopNewsViewModel @Inject constructor(private val newsRepository: NewsRepository) : ViewModel()  {
 
     var response: MutableLiveData<NetworkResult<TopStories>> = MutableLiveData()
@@ -23,6 +24,9 @@ class TopNewsViewModel @Inject constructor(private val newsRepository: NewsRepos
 
     lateinit var tempResults : List<Result>
 
+    init {
+        getTopNews()
+    }
     fun getTopNews(){
         response.value = NetworkResult.Loading()
         viewModelScope.launch {

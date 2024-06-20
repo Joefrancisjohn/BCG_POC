@@ -1,25 +1,23 @@
 package com.example.myapplication.topnews
 
-import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.App
 import com.example.myapplication.databinding.FragmentNewsListBinding
 import com.example.myapplication.models.NetworkResult
 import com.example.myapplication.models.Result
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
+@AndroidEntryPoint
 class FragmentTopNews : Fragment() {
 
     private var _binding: FragmentNewsListBinding? = null
@@ -30,12 +28,7 @@ class FragmentTopNews : Fragment() {
 
     private lateinit var rvAdapter: RvAdapter
 
-
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val topNewsViewModel by viewModels<TopNewsViewModel> { viewModelFactory }
+    private val topNewsViewModel: TopNewsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,11 +39,6 @@ class FragmentTopNews : Fragment() {
         return binding.root
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (requireActivity().application as App).appComponent.inject(this)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -58,13 +46,14 @@ class FragmentTopNews : Fragment() {
         binding.rvList.layoutManager = layoutManager
         topNewsViewModel.getTopNews()
 
-        topNewsViewModel.response.observe(viewLifecycleOwner){ response ->
+        topNewsViewModel.response.observe(viewLifecycleOwner) { response ->
             binding.progressBar.visibility = View.GONE
-            when(response) {
+            when (response) {
                 is NetworkResult.Success -> {
-                   loadRvWithNews(response.data.results)
+                    loadRvWithNews(response.data.results)
                     topNewsViewModel.tempResults = response.data.results
                 }
+
                 is NetworkResult.Error -> {
                     println("JOE_TAG in VIEW Error : ${response.message}")
                     Toast.makeText(
@@ -74,9 +63,11 @@ class FragmentTopNews : Fragment() {
                     ).show()
                     binding.tvErrorMsg.text = response.message
                 }
+
                 is NetworkResult.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                 }
+
                 is NetworkResult.Exception -> {
                     println("JOE_TAG in VIEW Exception ${response.e.message} ")
                     binding.tvErrorMsg.text = response.e.message
