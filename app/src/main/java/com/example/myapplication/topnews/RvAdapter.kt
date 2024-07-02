@@ -22,9 +22,6 @@ class RvAdapter(
     var newsList: List<Result>,
 ) : RecyclerView.Adapter<RvAdapter.ViewHolder>() {
 
-    // create an inner class with name ViewHolder
-    // It takes a view argument, in which pass the generated class of single_item.xml
-    // ie SingleItemBinding and in the RecyclerView.ViewHolder(binding.root) pass it like this
 
     inner class ViewHolder(val binding: NewsItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -58,7 +55,7 @@ class RvAdapter(
                             .load(it[0].url)
                             .placeholder(R.drawable.ic_launcher_foreground)
                             .apply(requestOptions)
-                            .onlyRetrieveFromCache(true)
+                          //  .onlyRetrieveFromCache(true)
                             .into(binding.ivNewsImg)
                     } catch (e: Exception) {
                         println("JOE_TAG Exception at :  $position")
